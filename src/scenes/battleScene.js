@@ -29,6 +29,23 @@ battleWorker.onmessage = (event) => {
     }
 };
 
+const battleAttackWorker = new Worker('src/workers/battleAttackWorker.js');
+
+battleAttackWorker.onmessage = (event) => {
+    const { type, payload } = event.data;
+
+    switch (type) {
+        case 'ATTACK_RESULT':
+            updateHealthBars(payload);
+            break;
+        case 'FAINT':
+            handleFaint(payload);
+            break;
+        default:
+            break;
+    }
+};
+
 function initBattle() {
   document.querySelector("#userInterface").style.display = "block";
   document.querySelector("#dialogueBox").style.display = "none";
