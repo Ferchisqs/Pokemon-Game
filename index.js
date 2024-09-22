@@ -1,6 +1,9 @@
 const canvas = document.querySelector("canvas");
 const context = canvas.getContext("2d");
 
+const playerWorker = new Worker("src/workers/playerWorker.js");
+
+
 canvas.width = 1024;
 canvas.height = 576;
 
@@ -316,7 +319,7 @@ function animate() {
   }
 }
 
-// animate();
+ //animate();
 
 window.addEventListener("click", () => {
   console.log("clicked");
@@ -359,6 +362,14 @@ window.addEventListener("keyup", (e) => {
       break;
   }
 });
+
+playerWorker.onmessage = (event) => {
+  const { type, payload } = event.data;
+  if (type === 'UPDATE') {
+    const { position } = payload;
+    context.drawImage(payload.sprite.current, position.x, position.y);
+  }
+};
 
 let clicked = false;
 addEventListener('click', () => {
