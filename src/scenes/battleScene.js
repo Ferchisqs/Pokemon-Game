@@ -15,6 +15,20 @@ let renderedSprites;
 let battleAnimationId;
 let queue;
 
+const battleWorker = new Worker('src/workers/battleWorker.js');
+
+battleWorker.onmessage = (event) => {
+    const { type } = event.data;
+
+    switch (type) {
+        case 'BATTLE_STARTED':
+            startBattle();
+            break;
+        default:
+            break;
+    }
+};
+
 function initBattle() {
   document.querySelector("#userInterface").style.display = "block";
   document.querySelector("#dialogueBox").style.display = "none";

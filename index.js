@@ -363,14 +363,6 @@ window.addEventListener("keyup", (e) => {
   }
 });
 
-playerWorker.onmessage = (event) => {
-  const { type, payload } = event.data;
-  if (type === 'UPDATE') {
-    const { position } = payload;
-    context.drawImage(payload.sprite.current, position.x, position.y);
-  }
-};
-
 let clicked = false;
 addEventListener('click', () => {
   if (!clicked) {
